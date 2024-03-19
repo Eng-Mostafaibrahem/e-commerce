@@ -29,9 +29,9 @@ export default function Login() {
   }
 
   const validationSchema = Yup.object({
-    email: Yup.string().email("invalid email or Password").required(),
+    email: Yup.string().email("email is not valid").required(),
     password: Yup.string()
-      .matches(/^[A-Z][a-z0-9]{3,8}$/, "invalid email or Password")
+      .matches(/^[A-Z][a-z0-9]{3,8}$/, "invalidPassword")
       .required("password is required"),
   });
 

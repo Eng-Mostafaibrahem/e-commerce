@@ -18,22 +18,16 @@ export default function ProductItem({ product }) {
     }
   }
 
-  const{addToWishlist ,setWishlist,wishlist}=useContext(wisheListContext)
-  async function addProductToWishlist (id){
-    let{data}=await addToWishlist(id)
-    console.log(data.data)
-    setWishlist(data.data);
-    localStorage.setItem("WishList",data.data)
-    // console.log(wishlist);
-    let flag =data.data.includes(id);
-    if(flag)console.log("product already in your wishlist");
-    console.log("hello from wishlist");
-      if (data.status === "success" && flag ) {
-         toast.error("product already in your wishlist", {
-          position: "bottom-right",
-        });
-    }
-    
+  
+  const { addToWishlist } = useContext(wisheListContext)
+  async function addProductToWishlist(id) {
+    let { data } = await addToWishlist(id)
+   //console.log(data.data);
+    if (data.status === "success") {
+      toast.success("product added successfully", {
+        position: "bottom-right",
+      });
+    } 
 
   }
 
@@ -66,24 +60,8 @@ export default function ProductItem({ product }) {
           Add To Cart
         </button>
 
-        <button onClick={()=>addProductToWishlist(product._id)}>wishlist </button>
-        
-        {/* <WishList /> */}
-
-        {/* <i className="fa-solid fa-heart bg-red position-absolute top-0 end-0 mt-4 pe-4 fs-5"></i> */}
-        <i className="fa-regular fa-heart position-absolute top-0 end-0 mt-4 pe-4 fs-5"></i>
-
-        {/* <i
-          onClick={() => {
-            {
-              wishlist ? (
-                <i className="fa-solid fa-heart bg-red position-absolute top-0 end-0 mt-4 pe-4 fs-5"></i>
-              ) : (
-                <i className="fa-regular fa-heart position-absolute top-0 end-0 mt-4 pe-4 fs-5"></i>
-              );
-            }
-          }}
-        ></i> */}
+        {/* <button onClick={() => addProductToWishlist(product._id)}>wishlist </button> */}
+        <i className="fa-regular fa-heart position-absolute top-0 end-0 mt-4 pe-4 fs-5" onClick={() => addProductToWishlist(product._id)}></i>
       </div>
     </div>
   );
