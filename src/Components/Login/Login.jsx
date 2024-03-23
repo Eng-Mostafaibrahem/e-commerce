@@ -9,7 +9,7 @@ export default function Login() {
   let navigate = useNavigate();
   const [errorMessage, setErrorMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  let {setToken}=useContext(TokenContext);
+  let { setToken } = useContext(TokenContext);
   async function callLogin(reqBody) {
     console.log(reqBody);
     setIsLoading(true);
@@ -18,20 +18,21 @@ export default function Login() {
       .catch((err) => {
         setIsLoading(false);
         setErrorMessage(err.response.data.message);
+        console.log(err);
       });
     if (data.message === "success") {
-      //login success 
-      localStorage.setItem("Token",data.token)
-      setToken(data.token)      
+      //login success
+      localStorage.setItem("Token", data.token);
+      setToken(data.token);
       navigate("/");
     }
     console.log(data);
   }
 
   const validationSchema = Yup.object({
-    email: Yup.string().email("invalid email or Password").required(),
+    email: Yup.string().email("invalid email").required(),
     password: Yup.string()
-      .matches(/^[A-Z][a-z0-9]{3,8}$/, "invalid email or Password")
+      .matches(/^[A-Z][a-z0-9]{3,8}$/, "invalid Password")
       .required("password is required"),
   });
 
@@ -48,7 +49,7 @@ export default function Login() {
       <div className="w-50 mx-auto my-5">
         <h2 className="mb-3">Login Now :</h2>
         {errorMessage ? (
-          <div className="alert alert-danger">incorect email or password</div>
+          <div className="alert alert-danger">{errorMessage}</div>
         ) : null}
         <form onSubmit={regesterForm.handleSubmit}>
           <div className="form-group mb-2">
@@ -94,6 +95,12 @@ export default function Login() {
             </div>
           ) : null}
           <button
+            disabled={
+              (!regesterForm.values.email || !regesterForm.values.password) ||
+              (regesterForm.errors.email || regesterForm.errors.password)
+                ? "disabled"
+                : false
+            }
             className="btn bg-main text-white d-block ms-auto m-2"
             type="submit"
           >

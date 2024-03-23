@@ -70,6 +70,11 @@ export default function NavBar() {
                   Wishlist
                 </Link>
               </li>
+              <li className="nav-item">
+                <Link className="nav-link" to={"checkout"}>
+                  CheckOut
+                </Link>
+              </li>
             </ul>
           ) : null}
 

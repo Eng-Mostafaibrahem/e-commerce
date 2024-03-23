@@ -3,6 +3,7 @@ import style from "./Cart.module.css";
 import { Helmet } from "react-helmet";
 import { CartContext } from "../../CONTEXT/CartContext";
 import Loader from "../Loader/Loader";
+import { Link } from 'react-router-dom';
 
 export default function Cart() {
   const { getLoggedCard, countCart, deletProductFromCart } =
@@ -115,6 +116,8 @@ export default function Cart() {
                 );
               })}
             </div>
+
+            <Link to={'chekout'} className="btn bg-main text-white"> CheckOut </Link>
 
           </>}
       </div>

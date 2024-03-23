@@ -13,9 +13,10 @@ export default function WishList() {
 
 
   const { addToWishlist, getWishlist,deletProductFromWishlist} = useContext(wisheListContext)
+  
+  
   async function addProductToWishlist(id) {
     let { data } = await addToWishlist(id)
-    console.log(data)
     let flag = data.data.includes(id);
     if (flag) console.log("product already in your wishlist");
     console.log("hello from wishlist");
@@ -31,18 +32,15 @@ export default function WishList() {
   async function getDataWishList() {
     let { data } = await getWishlist();
     if (data.message !== "success") setLoading(false);
-    console.log(data.data);
     setnumOfWishListItem(data.count);
     setProducts(data.data)
-
+  
 
   }
 
   async function remove(id) {
     const { data } = await deletProductFromWishlist(id);
-
-    setProducts(data.data.products);
-    setnumOfWishListItem(data.numOfWishlistItems);
+   getDataWishList();
   }
 
 
@@ -59,6 +57,7 @@ export default function WishList() {
       {loading ? 
         <Loader />:<>
         <h1>WishList :</h1>
+        {console.log(products)}
         <div className="row gy-3 p-2 m-4  align-items-center">
           <div className="d-flex justify-content-between">
             <p className="text-main">totla element in WishList : {numOfWishListItems}  </p>
@@ -79,7 +78,6 @@ export default function WishList() {
                       <h4>
                         {product.title.split(" ").slice(0, 2).join(" ")}
                       </h4>
-                      {console.log(product)}
                       <h5 className="text-main my-3">
                         <span className="text-bg-main">{product.price}</span>
                       </h5>

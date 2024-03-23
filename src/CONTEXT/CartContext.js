@@ -1,7 +1,6 @@
 import axios from "axios";
 import { createContext } from "react";
 
-
 let headers = { token: localStorage.getItem("Token") };
 function addProductToCart(id) {
   return axios
@@ -26,7 +25,7 @@ function getLoggedCard() {
     .catch((err) => err);
 }
 
-function countCart(id,count) {
+function countCart(id, count) {
   return axios
     .put(
       `https://ecommerce.routemisr.com/api/v1/cart/${id}`,
@@ -44,6 +43,12 @@ function deletProductFromCart(id) {
     .catch((err) => err);
 }
 
+function checkOut() {
+  return axios.post(
+    "https://ecommerce.routemisr.com/api/v1/orders/checkout-session/65d5e3179c86f6003429bacd?url=http://localhost:3000"
+  ,{headers});
+}
+
 export const CartContext = createContext();
 export default function CartContextProvider(props) {
   return (
@@ -53,6 +58,7 @@ export default function CartContextProvider(props) {
         getLoggedCard,
         countCart,
         deletProductFromCart,
+        checkOut,
       }}
     >
       {props.children}

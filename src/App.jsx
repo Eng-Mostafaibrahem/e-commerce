@@ -18,6 +18,7 @@ import ProtectedRoutes from "./Components/ProtectedRoutes/ProtectedRoutes";
 import CategoryDetails from "./Components/CategoryDetails/CategoryDetails";
 import { Toaster } from "react-hot-toast";
 import WishList from "./Components/WishList/WishList";
+import ChekOut from "./Components/ChekOut/ChekOut";
 
 function App() {
   let { setToken } = useContext(TokenContext);
@@ -83,6 +84,14 @@ function App() {
           element: (
             <ProtectedRoutes>
               <WishList />
+            </ProtectedRoutes>
+          ),
+        },
+        {
+          path: "checkout",
+          element: (
+            <ProtectedRoutes>
+              <ChekOut />{" "}
             </ProtectedRoutes>
           ),
         },

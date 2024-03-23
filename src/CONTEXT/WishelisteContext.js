@@ -27,7 +27,7 @@ function getWishlist() {
 
 function deletProductFromWishlist(id) {
   return axios
-    .delete(`https://ecommerce.routemisr.com/api/v1/cart/${id}`, { headers })
+    .delete(`https://ecommerce.routemisr.com/api/v1/wishlist/${id}`, { headers })
     .then((response) => response)
     .catch((err) => err);
 }

@@ -8,7 +8,7 @@
     "default": {
       "customTemplates": {
         "component": "templates/TemplateName.jsx"
-              },
+              },  
       "path": "src/Components",
       "withStyle": true,
       "withTest": false,
