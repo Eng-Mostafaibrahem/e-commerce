@@ -6,7 +6,7 @@ import Loader from "../Loader/Loader";
 import { Link } from 'react-router-dom';
 
 export default function Cart() {
-  const { getLoggedCard, countCart, deletProductFromCart } =
+  const { getLoggedCard, countCart, deletProductFromCart ,payment ,setNumOfCartItems} =
     useContext(CartContext);
   const [product, setProducts] = useState([]);
   const [response, setresponse] = useState([]);
@@ -14,16 +14,22 @@ export default function Cart() {
   const [loading, setLoading] = useState(true);
 
 
+
   async function cartProducts() {
     let { data } = await getLoggedCard();
+    //console.log(data.data._id);
     if (data.message !== "success") setLoading(false);
     setProducts(data.data.products);
     setresponse(data.data);
     setnumOfCartItem(data.numOfCartItems);
+    payment(data.data._id);
+    setNumOfCartItems(data.numOfCartItems)
+
   }
   async function updateCount(id, count) {
     let { data } = await countCart(id, count);
     setProducts(data.data.products);
+
   }
 
   async function remove(id) {
@@ -32,6 +38,8 @@ export default function Cart() {
     setProducts(data.data.products);
     setnumOfCartItem(data.numOfCartItems);
     setresponse(data.data.totalCartPrice);
+    setNumOfCartItems(data.numOfCartItems)
+
   }
 
 
@@ -116,8 +124,7 @@ export default function Cart() {
                 );
               })}
             </div>
-
-            <Link to={'chekout'} className="btn bg-main text-white"> CheckOut </Link>
+            <Link to={"/checkout"} className="btn bg-main text-white"> CheckOut </Link>
 
           </>}
       </div>

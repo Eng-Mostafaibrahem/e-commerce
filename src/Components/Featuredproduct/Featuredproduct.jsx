@@ -1,12 +1,29 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import style from "./Featuredproduct.module.css";
 import axios from "axios";
-import { Helmet } from "react-helmet";
+import toast from "react-hot-toast";
 import Loader from "../Loader/Loader";
+import { CartContext } from "../../CONTEXT/CartContext";
 
 export default function Featuredproduct() {
   const [products, setProducts] = useState({});
   const [loading, setLoading] = useState(true);
+  const { addProductToCart, setNumOfCartItems } = useContext(CartContext);
+
+  async function addProduct(id) {
+    let { data } = await addProductToCart(id);
+    if (data.status === "success") {
+      toast.success(data.message, {
+        position: "top-center",
+      });
+    } else
+      toast.error(data.message, {
+        position: "top-center",
+      });
+
+    console.log(data);
+    setNumOfCartItems(data.numOfCartItems);
+  }
 
   async function getdata() {
     let { data } = await axios.get(
@@ -28,13 +45,9 @@ export default function Featuredproduct() {
           ) : (
             products.map((product) => {
               return (
-                <div  key={product.id} className="col-md-3 product p-3" >
+                <div key={product.id} className="col-md-3 product p-3">
                   <div>
-                    <img
-                      src={product.imageCover}
-                      alt=""
-                      className="w-100 "
-                    />
+                    <img src={product.imageCover} alt="" className="w-100 " />
                   </div>
                   <h6 className="text-main">
                     {product.title.split(" ").splice(0, 2).join(" ")}
@@ -46,7 +59,12 @@ export default function Featuredproduct() {
                       <i className="fa-solid fa-star rating-color"></i>
                     </span>
                   </div>
-                  <button className="btn bg-main w-100 text-white m-1">
+                  <button
+                    className="btn bg-main w-100 text-white"
+                    onClick={() => {
+                      addProduct(product.id);
+                    }}
+                  >
                     Add To Cart
                   </button>
                 </div>

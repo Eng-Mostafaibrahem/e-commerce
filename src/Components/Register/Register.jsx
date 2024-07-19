@@ -15,10 +15,12 @@ export default function Register() {
     setIsLoading(true)
     let { data } = await axios
       .post("https://ecommerce.routemisr.com/api/v1/auth/signup", reqBody)
+      
       .catch((err) =>{
         setIsLoading(false)
         setErrorMessage(err.response.data.message);
       } )
+      console.log(data);
     if (data.message === "success") {
       navigate("/login");
     }

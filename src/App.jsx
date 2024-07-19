@@ -79,6 +79,7 @@ function App() {
             </ProtectedRoutes>
           ),
         },
+
         {
           path: "wishlist",
           element: (
@@ -117,9 +118,7 @@ function App() {
     <>
       <RouterProvider router={routes}></RouterProvider>
       <Toaster />
-
     </>
-    
   );
 }
 

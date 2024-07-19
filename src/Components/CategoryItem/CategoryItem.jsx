@@ -11,7 +11,7 @@ export default function CategoryItem({category}) {
     <div class="card-body">
       <h5 class="card-title">{category.name}</h5>
     </div>
-  </div>
+  </div>  
   </div>
   </Link>
 

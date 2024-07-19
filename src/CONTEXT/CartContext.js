@@ -1,5 +1,6 @@
 import axios from "axios";
-import { createContext } from "react";
+import { createContext, useEffect, useState } from "react";
+
 
 let headers = { token: localStorage.getItem("Token") };
 function addProductToCart(id) {
@@ -43,14 +44,34 @@ function deletProductFromCart(id) {
     .catch((err) => err);
 }
 
-function checkOut() {
-  return axios.post(
-    "https://ecommerce.routemisr.com/api/v1/orders/checkout-session/65d5e3179c86f6003429bacd?url=http://localhost:3000"
-  ,{headers});
+function payment(cart_id,shippingAddress) {
+  return axios
+    .post(
+      `https://ecommerce.routemisr.com/api/v1/orders/checkout-session/${cart_id}?url=http://localhost:3000`,
+      { shippingAddress },
+      { headers }
+    )
+    .then((response) => response)
+    .catch((err) => err);
 }
 
 export const CartContext = createContext();
 export default function CartContextProvider(props) {
+  
+  const [cartId , setCartId] = useState(null);
+  const [numOfCartItems,setNumOfCartItems] = useState(null);
+  
+  async function intialcartnumber(){
+
+    let {data}= await getLoggedCard();
+    console.log(data);
+    setNumOfCartItems(data.numOfCartItems);
+  }
+
+  useEffect(()=>{
+    intialcartnumber();
+  },[])
+
   return (
     <CartContext.Provider
       value={{
@@ -58,7 +79,9 @@ export default function CartContextProvider(props) {
         getLoggedCard,
         countCart,
         deletProductFromCart,
-        checkOut,
+        payment,
+        numOfCartItems,
+        setNumOfCartItems,
       }}
     >
       {props.children}

@@ -1,14 +1,20 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import style from "./ChekOut.module.css";
 import { Helmet } from "react-helmet";
 import Loader from "../Loader/Loader";
 import toast from "react-hot-toast";
 import { useFormik } from "formik";
+import { CartContext } from "../../CONTEXT/CartContext";
 export default function ChekOut() {
   // const [loading, setLoading] = useState(true);
+  const {payment}=useContext(CartContext)
 
-  function checkoutPayment(values) {
-    console.log(values);
+  async function checkoutPayment(values) {
+    const {data} =await payment(values);
+    // console.log(values);
+    console.log(data);
+    // console.log(data.session.url);
+    window.location.href=data.session.url
   }
 
   let formik = useFormik({
@@ -22,11 +28,10 @@ export default function ChekOut() {
 
   return (
     <>
-      <div>ChekOut</div>
       <Helmet>
         <title>Checkout</title>
       </Helmet>
-      <div className="container bg-main-light  p-4 ">
+      <div className="container bg-main-light  p-4 mt-3 mb-3 ">
         {/* {loading ? (
           <Loader />
         ) : (
@@ -47,7 +52,7 @@ export default function ChekOut() {
               onChange={formik.handleChange}
             />
           </div>
-
+         
           <div className="mb-3">
             <label for="" className="form-label">
               City{" "}
@@ -77,9 +82,6 @@ export default function ChekOut() {
 
           <button className="btn bg-main text-white  "> pay </button>
         </form>
-
-        {/* </> */}
-        {/* )} */}
       </div>
     </>
   );

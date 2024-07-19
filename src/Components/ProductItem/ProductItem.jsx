@@ -1,36 +1,47 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { CartContext } from "../../CONTEXT/CartContext";
 import style from "./ProductItem.module.css";
-import { wisheListContext } from '../../CONTEXT/WishelisteContext'
+import { wisheListContext } from "../../CONTEXT/WishelisteContext";
 import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
 
 export default function ProductItem({ product }) {
-  const { addProductToCart } = useContext(CartContext);
+  const { addProductToCart,setNumOfCartItems } = useContext(CartContext);
+  const [color, setColor] = useState(product.isFav);
   async function addProduct(id) {
-    console.log(id);
     let { data } = await addProductToCart(id);
-
     if (data.status === "success") {
       toast.success(data.message, {
-        position: "bottom-right",
+        position: "top-center",
       });
-    }
+    }else toast.error(data.message,{
+      position:"top-center"
+    })
+    
+    console.log(data);
+    setNumOfCartItems(data.numOfCartItems)
+
+    
   }
 
-  
-  const { addToWishlist } = useContext(wisheListContext)
+
+
+
+  const { addToWishlist } = useContext(wisheListContext);
   async function addProductToWishlist(id) {
-    let { data } = await addToWishlist(id)
-   //console.log(data.data);
+    let { data } = await addToWishlist(id);
+    //console.log(data.data);
     if (data.status === "success") {
       toast.success("product added successfully", {
         position: "bottom-right",
       });
-    } 
+      setColor(!color);
 
+    }
   }
-
+// useEffect(()=>{
+// console.log(color)
+// },[color])
   return (
     <div key={product._id} className="col-md-2">
       <div className="product cursor-pointer rounded-3 p-3 position-relative">
@@ -61,8 +72,18 @@ export default function ProductItem({ product }) {
         </button>
 
         {/* <button onClick={() => addProductToWishlist(product._id)}>wishlist </button> */}
-        <i className="fa-regular fa-heart position-absolute top-0 end-0 mt-4 pe-4 fs-5" onClick={() => addProductToWishlist(product._id)}></i>
+
+
+
+
+        {
+          <i
+          className={`fa-solid fa-heart fs-3 ${color?"text-danger":"text-primary" }  position-absolute top-0 end-0 mt-4 pe-4 fs-5`}
+          onClick={() => addProductToWishlist(product._id)}
+        ></i>}
       </div>
     </div>
   );
 }
+
+

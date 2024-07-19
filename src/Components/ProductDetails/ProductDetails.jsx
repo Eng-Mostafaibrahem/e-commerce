@@ -12,15 +12,22 @@ export default function ProductDetails() {
   const [loading, setLoading] = useState(true);
   let { id } = useParams();
 
-  const { addProductToCart } = useContext(CartContext);
+  const { addProductToCart, setNumOfCartItems } = useContext(CartContext);
+
   async function addProduct(id) {
     let { data } = await addProductToCart(id);
-    if (data.status === "success")
+    if (data.status === "success"){
       toast.success(data.message, {
         position: "bottom-right",
       });
-  }
+    }else toast.error(data.message,{
+      position:"top-center"
+    })
+    setNumOfCartItems(data.numOfCartItems)
 
+  
+  }
+  
   let settings = {
     dots: true,
     infinite: true,

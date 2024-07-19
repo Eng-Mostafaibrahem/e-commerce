@@ -21,9 +21,13 @@ function getWishlist() {
       "https://ecommerce.routemisr.com/api/v1/wishlist",
       { headers }
     )
+    
     .then((response) => response)
     .catch((err) => err);
-}
+
+
+
+  }
 
 function deletProductFromWishlist(id) {
   return axios
@@ -31,6 +35,7 @@ function deletProductFromWishlist(id) {
     .then((response) => response)
     .catch((err) => err);
 }
+ 
 
 export const wisheListContext = createContext();
 

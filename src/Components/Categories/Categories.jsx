@@ -16,10 +16,9 @@ export default function Categories() {
     if (data.message !== "success") {
       setLoading(false);
     }
-    console.log(data);
 
     SetCategories(data.data);
-  }
+  }   
 
   useEffect(() => {
     getCategories();
