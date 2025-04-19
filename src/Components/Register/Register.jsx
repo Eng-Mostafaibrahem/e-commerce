@@ -1,26 +1,25 @@
 import axios from "axios";
 import { useFormik } from "formik";
 import React, { useState } from "react";
-import {  useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 
 export default function Register() {
-
-  let navigate=useNavigate();
-  const [errorMessage,setErrorMessage]=useState("");
-  const [isLoading,setIsLoading]=useState(false);
+  let navigate = useNavigate();
+  const [errorMessage, setErrorMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   async function callRegister(reqBody) {
-    console.log(reqBody)
-    setIsLoading(true)
+    console.log(reqBody);
+    setIsLoading(true);
     let { data } = await axios
       .post("https://ecommerce.routemisr.com/api/v1/auth/signup", reqBody)
-      
-      .catch((err) =>{
-        setIsLoading(false)
+
+      .catch((err) => {
+        setIsLoading(false);
         setErrorMessage(err.response.data.message);
-      } )
-      console.log(data);
+      });
+    console.log(data);
     if (data.message === "success") {
       navigate("/login");
     }
@@ -34,7 +33,10 @@ export default function Register() {
       .required(),
     email: Yup.string().email("email is not valid").required(),
     password: Yup.string()
-      .matches(/^[A-Z][a-z0-9]{3,8}$/, "invalidPassword")
+      .matches(
+        /^[A-Z][a-z0-9]{3,8}$/,
+        "Password must start with a capital letter and be 4–9 characters long using only lowercase letters or numbers."
+      )
       .required("password is required"),
 
     rePassword: Yup.string()
@@ -61,8 +63,9 @@ export default function Register() {
     <>
       <div className="w-50 mx-auto my-5">
         <h2 className="mb-3">Register Now :</h2>
-        {errorMessage ?
-        <div className="alert alert-danger">{errorMessage}</div> :null}
+        {errorMessage ? (
+          <div className="alert alert-danger">{errorMessage}</div>
+        ) : null}
         <form onSubmit={regesterForm.handleSubmit}>
           <div className="form-group mb-2">
             <label htmlFor="name" className="mb-1">
@@ -171,9 +174,7 @@ export default function Register() {
             className="btn bg-main text-white d-block ms-auto m-2"
             type="submit"
           >
-            {isLoading? <i className="fa fa-spinner fa-spin"></i>: "Register"}
-
-           
+            {isLoading ? <i className="fa fa-spinner fa-spin"></i> : "Register"}
           </button>
         </form>
       </div>

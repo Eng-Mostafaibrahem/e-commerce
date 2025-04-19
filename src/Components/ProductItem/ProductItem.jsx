@@ -18,7 +18,6 @@ export default function ProductItem({ product }) {
       position:"top-center"
     })
     
-    console.log(data);
     setNumOfCartItems(data.numOfCartItems)
 
     

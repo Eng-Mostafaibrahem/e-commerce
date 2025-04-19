@@ -50,7 +50,7 @@ export default function Featuredproduct() {
                     <img src={product.imageCover} alt="" className="w-100 " />
                   </div>
                   <h6 className="text-main">
-                    {product.title.split(" ").splice(0, 2).join(" ")}
+                   }
                   </h6>
                   <h4>{product.category.name}</h4>
                   <div className="priceDetails d-flex justify-content-between my-3">
